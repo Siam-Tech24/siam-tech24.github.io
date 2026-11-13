@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <title>SIAM ISLAM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+            box-sizing: border-box;
+            color: rgb(2, 2, 43);
+        }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.4);
+            width: 100%;
+            height: 85px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            border-bottom: 3px solid rgba(2, 48, 59, 0.4);
+            padding: 10px;
+        }
+
+        header h1 {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+
+        body {
+            background: linear-gradient(to right bottom, rgba(188, 188, 252, 0.5), rgba(244, 244, 248, 0.2));
+            background-repeat: no-repeat;
+            width: 100%;
+            height: 100%;
+            background-attachment: fixed;
+        }
+
+        main {
+            padding: 10px;
+        }
+
+        article .icon {
+            background-color: rgba(2, 177, 177, 0.2);
+            color: rgb(2, 110, 110);
+            font-size: 22px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        article {
+            width: 90vw;
+            max-width: 800px;
+            background: whitesmoke;
+            backdrop-filter: blur(10px);
+            color: rgb(5, 8, 43);
+            border: 1px solid rgba(1, 1, 83, 0.15);
+            margin: 25px 10px;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            justify-self: center;
+        }
+
+        .introduction {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+        }
+
+        .introduction img {
+            border-radius: 20px;
+            height: 300px;
+            width: 200px;
+            object-fit: cover;
+        }
+
+        .details {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .details h1 {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+
+        .details p {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: larger;
+        }
+
+        .details a,
+        .details button {
+            background-color: rgb(3, 60, 134);
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: larger;
+            font-weight: bolder;
+            color: white;
+            border: 2px solid rgba(63, 62, 62, 0.7);
+            position: relative;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .details a::before,
+        .details button::before {
+            content: "";
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: rgb(244, 244, 248);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease-out;
+            border-radius: 12px;
+        }
+
+        .details a:hover::before,
+        .details button:hover::before {
+            transform: scaleX(1);
+        }
+
+        .details a:hover,
+        .details button:hover {
+            color: rgb(5, 8, 43);
+        }
+
+        .button_container {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        @media screen and (max-width: 720px) {
+            .introduction {
+                flex-direction: column;
+            }
+
+
+
+            .introduction img {
+                margin: 0 auto;
+            }
+
+            .button_container {
+                justify-content: center;
+                align-items: center;
+            }
+
+            article {
+                max-width: 450px;
+            }
+        }
+
+        .contact_display_container {
+            height: 100vh;
+            width: 100vw;
+            background: rgba(255, 255, 255, 0.5);
+            z-index: 99999;
+            position: fixed;
+            top: 0;
+            left: 0;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
+
+        .contact_display_container.active {
+            display: flex;
+            animation: contact_display_intro 0.5s forwards;
+        }
+
+        .contact_display {
+            height: 80%;
+            width: 80%;
+            background-color: whitesmoke;
+            border: 1px solid rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            padding: 5px;
+            max-width: 500px;
+            max-height: 600px;
+            box-shadow: 6px 6px 8px black;
+        }
+
+        @keyframes intro {
+
+            from {
+                transform: translateY(50%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0%);
+                opacity: 1;
+            }
+
+        }
+
+        @keyframes contact_display_intro {
+            from {
+                transform: translateY(25px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0px);
+                opacity: 1;
+            }
+        }
+
+        @keyframes contact_display_outro {
+
+            from {
+                opacity: 1;
+                transform: translateY(0px);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+        }
+
+        .contact_display_container .contact_display_container_remove {
+            animation: contact_display_outro 0.5s forwards;
+        }
+
+        .close {
+            border: none;
+            font-size: large;
+            font-weight: bolder;
+            justify-self: flex-start;
+            align-self: flex-start;
+            margin: 10px;
+            background-color: transparent;
+            cursor: pointer;
+            height: fit-content;
+        }
+
+        .links {
+            display: flex;
+            margin: auto auto;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 80%;
+            gap: 40px;
+            height: 60%;
+        }
+
+        .links h2 {
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgb(6, 6, 66);
+            padding: 13px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .links h2 i {
+            font-size: 30px;
+            margin-right: 18px;
+            color: rgb(6, 6, 51);
+        }
+
+        .links a {
+            width: 100%;
+            min-height: 50px;
+            font-size: larger;
+            font-weight: bolder;
+            text-decoration: none;
+            border: 1px solid transparent;
+            box-shadow: 5px 5px 5px black;
+            border-radius: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            transition: 0.3s ease-out;
+        }
+
+
+        .links a:hover {
+            transform: translateY(-7px);
+        }
+
+        .WhatsApp {
+            background-color: rgb(12, 202, 12);
+        }
+
+        .Facebook {
+            background-color: rgb(29, 29, 211);
+        }
+
+        .Academy {
+            background-color: rgb(35, 35, 158);
+        }
+
+        .links i {
+            font-size: 30px;
+            margin-right: 20px;
+            color: white;
+        }
+
+        .icon_container {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            min-height: 60px;
+            border-bottom: 2px solid rgba(5, 5, 63, 0.5);
+            align-items: center;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+
+        .icon_container h2 {
+            display: inline-flex;
+        }
+
+        .icon_container i {
+            font-size: 36px;
+            background-color: rgba(0, 110, 255, 0.7);
+            padding: 7px;
+            height: 100%;
+            width: 40px;
+            min-width: fit-content;
+            border-radius: 12px;
+        }
+
+        footer {
+            display: flex;
+            background-color: rgb(229, 236, 250);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 60px 30px;
+            border-top: 2px solid rgba(0, 0, 0, 0.3);
+            gap: 30px;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: larger;
+        }
+
+        center {
+            font-size: larger;
+            font-weight: bolder;
+        }
+
+        .details ul {
+            width: 100%;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .details ul li {
+            list-style: none;
+            background-color: rgb(138, 210, 252);
+            width: 100%;
+            max-width: 400px;
+            height: 45px;
+            min-height: fit-content;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            border-radius: 15px;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .details ul li h3 {
+            width: 50%;
+            justify-content: flex-start;
+            display: flex;
+            height: 100%;
+            min-height: fit-content;
+            font-size: large;
+            font-weight: bold;
+            align-items: center;
+        }
+
+        .info_name {
+            font-weight: bolder;
+            font-size: larger;
+        }
+
+        .card {
+            height: 290px;
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            padding: 0;
+            background-color: rgb(209, 225, 255);
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            box-shadow: 5px 5px 5px black;
+        }
+
+        .card img {
+            height: 230px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .card .name {
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+        }
+
+        .card_container {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>SIAM ISLAM</h1>
+    </header>
+    <main>
+        <div class="contact_display_container" id="contact_display_container">
+            <div class="contact_display">
+                <button class="close" id="close">Close</button>
+                <div class="links">
+                    <h2><i class="fa-solid fa-phone"></i>My Contacts</h2>
+                    <a href="https://wa.me/+8801882614288" class="WhatsApp"><i
+                            class="fa-brands fa-whatsapp"></i>+8801882614288</a>
+                    <a href="" class="Facebook"><i class="fa-brands fa-facebook"></i>Siam Islam</a>
+                    <a href="https://siam-tech24.github.io/NexusHub-Academy/" class="Academy"><i
+                            class="fa-solid fa-globe"></i>NexusHub Academy</a>
+                </div>
+            </div>
+        </div>
+        <article>
+            <div class="introduction">
+                <img src="https://siam-tech24.github.io/NexusHub-Academy/Partners%20Pics/siyam.png" alt="profile_pic">
+                <div class="details">
+                    <h1>Hi Everyone, I'm Siam Islam</h1>
+                    <p>The Founder and CEO of NexusHub Academy</p>
+                    <p>My mission, Making IT Education Affordable for Everyone</p>
+                    <div class="button_container">
+                        <a href="https://siam-tech24.github.io/NexusHub-Academy/">My Academy</a>
+                        <button onclick="" id="toggle">Contact</button>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <script>
+            const display = document.getElementById("contact_display_container");
+            const toggle = document.getElementById("toggle");
+            const close = document.getElementById("close");
+
+            toggle.addEventListener("click", () => {
+                display.classList.add("active");
+            });
+
+            close.addEventListener("click", () => {
+                display.classList.remove("active");
+            });
+
+        </script>
+        <article>
+            <div class="icon_container">
+                <i class="fa-solid fa-question"></i>
+                <h2>Who am I?</h2>
+            </div>
+            <div class="details">
+                <p>
+                    I'm just an ordinary person with a big vision. I believe that IT Education should be accessible to
+                    everyone.
+                    <br>
+                    That's why I established NexusHub Academy
+                    <br>
+                    In NexusHub Academy, you can find your favourite IT course in the best price possible.
+                </p>
+            </div>
+        </article>
+        <article>
+            <div class="icon_container">
+                <i class="fa-solid fa-school"></i>
+                <h2>What is NexusHub Academy?</h2>
+            </div>
+            <div class="details">
+                <p>
+                    NexusHub Academy was just an Idea
+                    <br>
+                    An Idea of a normal college student that could deliver best Quality IT Courses to everyone in the
+                    best possible price
+                    <br>
+                    And with my effort, now this Idea has become a reality
+                    <br>
+                    NexusHub Academy is now an online learning platform, from where you can develop your IT skills from
+                    home and open the gates of a bright career
+                    <br>
+                    NexusHub Academy doesn't just make you memorize lines, it helps you build real projects and develop
+                    skills faster with both manual and AI related work
+                </p>
+            </div>
+        </article>
+        <article>
+            <div class="icon_container">
+                <i class="fa-solid fa-book"></i>
+                <h2>My Story</h2>
+            </div>
+            <div class="details">
+                <p>
+                    My name is Siam Islam(Full name Mehdi Hasan Siam). I'm from Bangladesh.
+                    <br>
+                    Since childhood, I was very curious about everything.Computer technology was one of the topic that
+                    made me most curious. And this curiosity is what introduced me to Codding.
+                    <br>
+                    I've been practicing Web development since I was 16. But it was a bit challenging beacause most
+                    courses for web development were so expensive and the free courses online weren't much helpfull
+                    <br>
+                    I spent so much time learning new methods from different sources. So now I want to help the new
+                    developers who can't buy the expensive courses by giving offering them the courses at very
+                    Affordable price through NexusHub Academy
+                </p>
+            </div>
+        </article>
+        <article>
+            <div class="icon_container">
+                <i class="fa-solid fa-bullseye"></i>
+                <h2>My Motive</h2>
+            </div>
+            <div class="details">
+                <p>
+                    A country can't progress if the youth isn't progressing with the modern world. In this age of AI,
+                    learning IT skills and learning how to use them with AI is a must. And I don't want that financial
+                    condition becomes an obsticle between them and their favourite IT skill. That's why NexusHub Academy
+                    motto is,
+                    <br>
+                    <br>
+                    <center>"Making IT Education Affordable For Everyone"</center>
+                </p>
+            </div>
+        </article>
+        <article>
+            <div class="icon_container">
+                <i class="fa-solid fa-list"></i>
+                <h2>More About Me</h2>
+            </div>
+            <div class="details">
+                <ul>
+                    <li>
+                        <h3>Name:</h3>
+                        <h3>Siam Islam</h3>
+                    </li>
+                    <li>
+                        <h3>Full Name:</h3>
+                        <h3>Mehdi Hasan Siam</h3>
+                    </li>
+                    <li>
+                        <h3>BirthDate:</h3>
+                        <h3>23 September 2008</h3>
+                    </li>
+                    <li>
+                        <h3>Religion:</h3>
+                        <h3>Islam</h3>
+                    </li>
+                    <li>
+                        <h3>Country:</h3>
+                        <h3>Bangladesh</h3>
+                    </li>
+                    <li>
+                        <h3>Home Town:</h3>
+                        <h3>Dhaka, Mirpur</h3>
+                    </li>
+                    <li>
+                        <h3>Profession:</h3>
+                        <h3>FrontEnd Web Developer</h3>
+                    </li>
+                    <li>
+                        <h3>SSC Passed from:</h3>
+                        <h3>Mirpur Bangla School & College</h3>
+                    </li>
+                    <li>
+                        <h3>Role in NexusHub Academy:</h3>
+                        <h3>Founder, CEO & Instructor</h3>
+                    </li>
+                    <li>
+                        <h3>Languages:</h3>
+                        <h3>Bangla, English & Hindi</h3>
+                    </li>
+                </ul>
+            </div>
+        </article>
+        <article>
+            <div class="icon_container">
+                <i class="fa-solid fa-users"></i>
+                <h2>My Teammates in NexusHub Academy</h2>
+            </div>
+            <div class="details">
+                <div class="card_container">
+                    <div class="card">
+                        <img src="https://siam-tech24.github.io/NexusHub-Academy/Partners%20Pics/salamon.png"
+                            alt="Solomon">
+                        <div class="name">
+                            <p>Emeh Solomon Chiweike</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://siam-tech24.github.io/NexusHub-Academy/Partners%20Pics/ismail.png"
+                            alt="Ismail">
+                        <div class="name">
+                            <p>Mohammad Ismail</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+    <footer>
+        <h2>
+            Exclusively Created As Portfolio For SIAM ISLAM
+        </h2>
+        <p>
+           2026 &copy; Siam Islam - All rights reserved
+        </p>
+    </footer>
+</body>
+
+</html>
